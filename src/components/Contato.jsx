@@ -36,23 +36,21 @@ Período preferido: ${form.horario}
 ${form.mensagem ? `Mensagem: ${form.mensagem}` : ""}
     `;
 
-    // Enviar para WhatsApp
-    const linkWhatsApp = `https://wa.me/${numeroInspire}?text=${encodeURIComponent(
-      mensagemWhats
-    )}`;
+    // Abrir WhatsApp
+    const linkWhatsApp = `https://wa.me/${numeroInspire}?text=${encodeURIComponent(mensagemWhats)}`;
     window.open(linkWhatsApp, "_blank");
 
-    // Tentar enviar para o Google Sheets
+    // Enviar para Google Sheets (modo no-cors)
     try {
-      await fetch('https://script.google.com/macros/s/AKfycbxUz2Q0soT7r3ljWbj5KgNq3kdCv8bXyrwzrAyOHbOb_Mt3-KqX3fPczd4ioMbVDgUN/exec', {
+      await fetch("https://script.google.com/macros/s/AKfycbxUz2Q0soT7r3ljWbj5KgNq3kdCv8bXyrwzrAyOHbOb_Mt3-KqX3fPczd4ioMbVDgUN/exec", {
         method: "POST",
-        body: JSON.stringify(form),
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(form),
       });
 
-      // Limpa formulário e mostra mensagem de sucesso
       setForm({
         nome: "",
         email: "",
